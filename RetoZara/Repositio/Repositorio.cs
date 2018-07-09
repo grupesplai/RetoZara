@@ -35,6 +35,16 @@ namespace RetoZara
                     tDate = DateTime.Parse(newDate, CultureInfo.GetCultureInfo("es"));
                     dateList.Add(new Data(tDate, openValue, closeValue));
                 }
+                dateList.Reverse();
+                List<Data> lastDay = (from d in dateList
+                                      where d.Date == Manager.GetLastFriday(d.Date)
+                                      select d).ToList();
+
+                Data open = new Data();
+                foreach (Data a in lastDay)
+                {
+                    Console.WriteLine(a.Date + "\t" + a.Closed + "\t" + a.Opened);
+                }
             }
         }
     }
