@@ -8,5 +8,6 @@ namespace RetoZara
 {
     public interface IRepositorio
     {
+        void SetList(string path);
     }
 }

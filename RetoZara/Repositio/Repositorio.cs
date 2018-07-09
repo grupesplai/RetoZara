@@ -13,7 +13,18 @@ namespace RetoZara
 
         public void SetList(string path)
         {
-            
+            using (var reader = new StreamReader(path))
+            {
+                List<Data> dateList = new List<Data>();
+                
+
+                while (null != (line = reader.ReadLine()))
+                {
+                    var values = line.Split(';');
+                    dateList.Add(new Data(tDate, values[1], values[2]));
+                }
+                
+            }
         }
     }
 }
