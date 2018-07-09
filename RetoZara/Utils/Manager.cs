@@ -35,11 +35,10 @@ namespace RetoZara
             decimal total = 0;
             foreach (Data ld in lastDay)
             {
-                Console.WriteLine(ld.Date + "\t" + ld.Closed + "\t" + ld.Opened);
-                total = Decimal.Round(total + (50 / ld.Opened), 3);
-                Console.WriteLine(total);
-
+                //Console.WriteLine(ld.Date + "\t" + ld.Closed + "\t" + ld.Opened);
+                total = Decimal.Round(total + ((50-(50*2/100)) / ld.Opened), 3);
             }
+            total = lastDay.Last().Closed * total;
             return total;
         }
     }

@@ -14,7 +14,7 @@ namespace RetoZara
             string path = @"C:\Users\G1\source\repos\RetoZara\RetoZara\stocks-ITX.csv";
             Repositorio zara = new Repositorio();
             decimal total = zara.SetList(path);
-            Console.WriteLine(total);
+            Console.WriteLine(total.ToString("0,000.000"));
             
         }
     }
