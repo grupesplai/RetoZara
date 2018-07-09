@@ -10,5 +10,11 @@ namespace RetoZara
 {
     public class Manager
     {
+        public static int GetMonth(string month)
+        {
+            string[] monthsArray = {"ene","feb","mar","abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic" };
+            int index = Array.IndexOf(monthsArray, month);
+            return index + 1;
+        }
     }
 }
