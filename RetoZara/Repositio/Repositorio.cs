@@ -8,18 +8,19 @@ using System.Threading.Tasks;
 
 namespace RetoZara
 {
-    class Repositorio : IRepositorio
+    internal class Repositorio : IRepositorio
     {
+        private List<Data> dateList;
 
-        public void SetList(string path)
+        public decimal SetList(string path)
         {
             using (var reader = new StreamReader(path))
             {
-                List<Data> dateList = new List<Data>();
+                dateList = new List<Data>();
                 DateTime tDate;
                 NumberFormatInfo format = new NumberFormatInfo() { NumberDecimalSeparator = "." };
                 string newDate, line;
-                decimal total = 0, openValue, closeValue;
+                decimal openValue, closeValue, total = 0;
 
                 while (null != (line = reader.ReadLine()))
                 {
@@ -35,19 +36,9 @@ namespace RetoZara
                     tDate = DateTime.Parse(newDate, CultureInfo.GetCultureInfo("es"));
                     dateList.Add(new Data(tDate, openValue, closeValue));
                 }
-                dateList.Reverse();
-                List<Data> lastDay = (from d in dateList
-                                      where d.Date == Manager.GetLastFriday(d.Date)
-                                      select d).ToList();
-
-                Data open = new Data();
-                foreach (Data a in lastDay)
-                {
-                    Console.WriteLine(a.Date + "\t" + a.Closed + "\t" + a.Opened);
-                    total = Decimal.Round(total + (50 / a.Opened), 3);
-                    Console.WriteLine(total);
-
-                }
+                List<Data> justFriday = Manager.GetActions(dateList);
+                total = Manager.getTotal(justFriday);
+                return total;
             }
         }
     }

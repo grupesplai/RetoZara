@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace RetoZara
 {
-    public class Manager
+    internal class Manager
     {
         public static int GetMonth(string month)
         {
@@ -22,10 +22,25 @@ namespace RetoZara
             int vector = (((int)dateFirts.DayOfWeek + 1) % 7) + 1;
             return dateFirts.AddDays(-vector);
         }
-        public static decimal getActions(decimal a)
+        public static List<Data> GetActions(List<Data> dateList)
         {
-           
-            return a;
+            dateList.Reverse();
+            List<Data> lastDay = (from d in dateList
+                                  where d.Date == GetLastFriday(d.Date)
+                                  select d).ToList();
+            return lastDay;
+        }
+        public static decimal getTotal(List<Data> lastDay)
+        {
+            decimal total = 0;
+            foreach (Data ld in lastDay)
+            {
+                Console.WriteLine(ld.Date + "\t" + ld.Closed + "\t" + ld.Opened);
+                total = Decimal.Round(total + (50 / ld.Opened), 3);
+                Console.WriteLine(total);
+
+            }
+            return total;
         }
     }
 }

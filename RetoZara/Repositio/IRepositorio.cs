@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace RetoZara
 {
-    public interface IRepositorio
+    internal interface IRepositorio
     {
-        void SetList(string path);
+        decimal SetList(string path);
     }
 }
