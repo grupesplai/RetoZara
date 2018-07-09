@@ -22,5 +22,10 @@ namespace RetoZara
             int vector = (((int)dateFirts.DayOfWeek + 1) % 7) + 1;
             return dateFirts.AddDays(-vector);
         }
+        public static decimal getActions(decimal a)
+        {
+           
+            return a;
+        }
     }
 }

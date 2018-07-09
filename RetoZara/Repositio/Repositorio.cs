@@ -19,7 +19,7 @@ namespace RetoZara
                 DateTime tDate;
                 NumberFormatInfo format = new NumberFormatInfo() { NumberDecimalSeparator = "." };
                 string newDate, line;
-                decimal openValue, closeValue;
+                decimal total = 0, openValue, closeValue;
 
                 while (null != (line = reader.ReadLine()))
                 {
@@ -44,6 +44,9 @@ namespace RetoZara
                 foreach (Data a in lastDay)
                 {
                     Console.WriteLine(a.Date + "\t" + a.Closed + "\t" + a.Opened);
+                    total = Decimal.Round(total + (50 / a.Opened), 3);
+                    Console.WriteLine(total);
+
                 }
             }
         }
