@@ -32,7 +32,7 @@ namespace RetoZara
         {
             dateList.Reverse();
             var lastDay = (from d in dateList
-                           where d.Date != GetLastFriday(d.Date,dateList) 
+                           where (d.Date != GetLastFriday(d.Date,dateList) )==false
                            select d).ToList();
             
             //var result = dateList.Union(lastDay).Intersect(dateList.Intersect(lastDay)).ToList();
@@ -71,11 +71,9 @@ namespace RetoZara
             decimal total = 0;
             foreach (Data ld in lastDay)
             {
-                //Console.WriteLine(ld.Date + "\t" + ld.Closed + "\t" + ld.Opened);
                 total = Decimal.Round(total + ((50-(50*2/100)) / ld.Opened), 3);
             }
             total = exactDay * total;
-            Console.WriteLine(exactDay);
             return total;
         }
     }
