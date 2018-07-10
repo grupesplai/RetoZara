@@ -36,7 +36,7 @@ namespace RetoZara
                 DateTime datl = DateTime.Parse("28/12/17", CultureInfo.GetCultureInfo("es"));
                 Data dtl = dateList.Find(x => x.Date == datl);
                 List<Data> justFriday = Manager.GetActions(dateList);
-                total = Manager.getTotal(justFriday, exactDay: dtl.Closed);
+                total = Manager.GetTotal(justFriday, exactDay: dtl.Closed);
                 return total;
             }
         }
