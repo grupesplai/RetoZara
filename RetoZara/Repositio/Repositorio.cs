@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RetoZara
 {
@@ -36,8 +33,10 @@ namespace RetoZara
                     tDate = DateTime.Parse(newDate, CultureInfo.GetCultureInfo("es"));
                     dateList.Add(new Data(tDate, openValue, closeValue));
                 }
+                DateTime datl = DateTime.Parse("28/12/17", CultureInfo.GetCultureInfo("es"));
+                Data dtl = dateList.Find(x => x.Date == datl);
                 List<Data> justFriday = Manager.GetActions(dateList);
-                total = Manager.getTotal(justFriday);
+                total = Manager.getTotal(justFriday, exactDay: dtl.Closed);
                 return total;
             }
         }

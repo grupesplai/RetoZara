@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RetoZara
 {
@@ -16,21 +12,61 @@ namespace RetoZara
             int index = Array.IndexOf(monthsArray, month);
             return index + 1;
         }
-        public static DateTime GetLastFriday(DateTime date)
+        public static DateTime GetLastFriday(DateTime date, List<Data> datelist)
         {
             var dateFirts = new DateTime(date.Year, date.Month, 1).AddMonths(1);
             int vector = (((int)dateFirts.DayOfWeek + 1) % 7) + 1;
-            return dateFirts.AddDays(-vector);
+
+            DateTime add = dateFirts.AddDays(-vector);
+            if (date != add)
+            {
+                if (!datelist.Exists(x => x.Date == add))
+                {
+                    add = add.AddDays(1);
+                }
+            }
+
+            return add;
         }
         public static List<Data> GetActions(List<Data> dateList)
         {
             dateList.Reverse();
-            List<Data> lastDay = (from d in dateList
-                                  where d.Date == GetLastFriday(d.Date)
-                                  select d).ToList();
+            var lastDay = (from d in dateList
+                           where d.Date != GetLastFriday(d.Date,dateList) 
+                           select d).ToList();
+            
+            //var result = dateList.Union(lastDay).Intersect(dateList.Intersect(lastDay)).ToList();
+            foreach (var ld in lastDay)
+            {
+                Console.WriteLine(ld.Date + "\t" + ld.Closed);
+            }
+            //DateTime dateTemp, dateFirts;
+            //int vector;
+            //List<Data> justFridays = new List<Data>();
+
+            //var result = dateList.Where(x => x.Date == GetLastFriday(x.Date));
+            //foreach(var re in result)
+            //{
+            //    Console.WriteLine(re.Date);
+            //}
+
+            //foreach (Data dl in dateList)
+            //{
+            //    dateFirts = new DateTime(dl.Date.Year, dl.Date.Month, 1).AddMonths(1);
+            //    vector = (((int)dateFirts.DayOfWeek + 1) % 7) + 1;
+            //    dateTemp = dateFirts.AddDays(-vector);
+
+            //    //var result = dateList.Where(x => x.Date == dateTemp);
+
+            //    //if (result.Any())
+            //    //{
+            //        justFridays.Add(new Data(dl.Date, dl.Closed, dl.Opened));
+            //        Console.WriteLine(dateTemp);
+            //    //}
+            //}
             return lastDay;
         }
-        public static decimal getTotal(List<Data> lastDay)
+        public static decimal getTotal(List<Data> lastDay, decimal exactDay)
         {
             decimal total = 0;
             foreach (Data ld in lastDay)
@@ -38,7 +74,8 @@ namespace RetoZara
                 //Console.WriteLine(ld.Date + "\t" + ld.Closed + "\t" + ld.Opened);
                 total = Decimal.Round(total + ((50-(50*2/100)) / ld.Opened), 3);
             }
-            total = lastDay.Last().Closed * total;
+            total = exactDay * total;
+            Console.WriteLine(exactDay);
             return total;
         }
     }
