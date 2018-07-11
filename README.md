@@ -11,3 +11,6 @@ Pasos seguidos:
 - Todos los registro se guardan en otra lista y solo añade si no existe en la nueva lista.
 - Cada registro son iterados para hacer los cálculos teniendo en cuanta el redondeo a cada valor calculado de la iteración.
 - Por último la aplicación muestra la cantidad calculada con un formato de 3 decimales.
+
+RESULTADO FINAL:
+36.664,211€
