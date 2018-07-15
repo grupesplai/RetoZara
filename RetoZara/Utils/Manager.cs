@@ -35,19 +35,30 @@ namespace RetoZara
             {
                 DateTime dome = GetLastFriday(d.Date);
                 Data obj = dateList.Find(x => x.Date == dome );
-                if ((obj != null) && !(cotizationsDayList.Exists(x => x.Date == obj.Date)))
+
+                if (obj == null)
                 {
-                    cotizationsDayList.Add(new Data (obj.Date, obj.Closed, obj.Opened));
-                    Console.WriteLine(obj.Date + "\t" + obj.Closed + "\t" + obj.Opened);
+                    int cont = 0;
+                    do
+                    {
+                        dome = dome.AddDays(1);
+                        cont++;
+                    } while (dateList.Find(x => x.Date == dome) == null && cont < 10);
                 }
 
+                obj = dateList.Find(x => x.Date == dome);
+                try
+                {
+                    if (!cotizationsDayList.Exists(x => x.Date == obj.Date))
+                       cotizationsDayList.Add(new Data(obj.Date, obj.Closed, obj.Opened));
+                }
+                catch{ }
             }
             return cotizationsDayList;
         }
 
         public static decimal GetTotal(List<Data> cotizationsDayList, decimal exactDay)
         {
-            //cotizationsDayList.Reverse();
             decimal total = 0;
             foreach (Data ld in cotizationsDayList)
             {
