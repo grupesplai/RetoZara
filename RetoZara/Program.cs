@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 
 namespace RetoZara
 {
@@ -6,7 +7,7 @@ namespace RetoZara
     {
         static void Main(string[] args)
         { 
-            string path = @"C:\Users\G1\source\repos\RetoZara\RetoZara\stocks-ITX.csv";
+            string path = ConfigurationManager.AppSettings["path"];
             Repositorio zara = new Repositorio();
             decimal total = zara.SetList(path);
             Console.WriteLine(total.ToString("0,000.000"));

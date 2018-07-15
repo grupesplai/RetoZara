@@ -5,7 +5,7 @@ using System.IO;
 
 namespace RetoZara
 {
-    internal class Repositorio : IRepositorio
+    public class Repositorio : IRepositorio
     {
         private List<Data> dateList;
 

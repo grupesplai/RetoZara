@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using Microsoft.Office.Interop.Excel;
+using RetoZara.FilesExcel;
 
 namespace RetoZara
 {
@@ -35,17 +37,14 @@ namespace RetoZara
             {
                 DateTime dome = GetLastFriday(d.Date);
                 Data obj = dateList.Find(x => x.Date == dome );
-
                 if (obj == null)
                 {
                     int cont = 0;
-                    do
-                    {
+                    do{
                         dome = dome.AddDays(1);
                         cont++;
-                    } while (dateList.Find(x => x.Date == dome) == null && cont < 10);
+                    } while (dateList.Find(x => x.Date == dome) == null && cont < 30);
                 }
-
                 obj = dateList.Find(x => x.Date == dome);
                 try
                 {
@@ -54,6 +53,9 @@ namespace RetoZara
                 }
                 catch{ }
             }
+            //List<Data> cotization2006 = FileAccessDates.GetDataFromDate(cotizationsDayList,"01/01/06","01/01/07");
+            //List<Data> cotization2007 = FileAccessDates.GetDataFromDate(cotizationsDayList, "01/01/07", "01/01/08");
+            //List<Data> cotization2011 = FileAccessDates.GetDataFromDate(cotizationsDayList, "01/01/11", "01/01/12");
             return cotizationsDayList;
         }
 
@@ -83,16 +85,18 @@ namespace RetoZara
                     excel.Cells[1, 3] = "Precio apertura";
                     int rowIndex = 2;
                     decimal total = 0;
+                    CultureInfo ci = new CultureInfo("Es-Es");
                     foreach (Data row in dateList)
                     {
-                        excel.Cells[rowIndex, 1] = row.Date;
+                        excel.Cells[rowIndex, 1] = ci.DateTimeFormat.GetDayName(row.Date.DayOfWeek)
+                            + " " + row.Date.Day + " " + ci.DateTimeFormat.GetMonthName(row.Date.Month) + " " + row.Date.Year;
                         excel.Cells[rowIndex, 2] = row.Closed;
                         excel.Cells[rowIndex, 3] = row.Opened;
                         total = Decimal.Round(total + ((50 - (50 * 2 / 100)) / row.Opened), 3); ;
                         rowIndex++;
                     }
-                    excel.Cells[2, 5] = "Total";
-                    excel.Cells[3, 5] = Decimal.Round((total * exactDay), 3);
+                    excel.Cells[2, 6] = "Total";
+                    excel.Cells[3, 6] = Decimal.Round((total * exactDay), 3);
                     excel.Visible = false;
 
                     Worksheet worksheet = (Worksheet)excel.ActiveSheet;
