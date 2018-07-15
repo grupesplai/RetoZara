@@ -22,42 +22,37 @@ namespace RetoZara
             int vector = (((int)dateFirts.DayOfWeek + 2) % 7) + 1;
 
             DateTime add = dateFirts.AddDays(-vector);
-            return add;
+            DateTime add2 = add.AddDays(1);
+            return add2;
         }
 
         public static List<Data> GetActions(List<Data> dateList)
         {
+            dateList.Reverse();
             List<Data> cotizationsDayList = new List<Data>();
 
             foreach (var d in dateList)
             {
-                DateTime lastCotizationDay = new DateTime();
-                if (GetLastFriday(d.Date).Equals(d.Date)) lastCotizationDay = d.Date;
-
-                else
+                DateTime dome = GetLastFriday(d.Date);
+                Data obj = dateList.Find(x => x.Date == dome );
+                if ((obj != null) && !(cotizationsDayList.Exists(x => x.Date == obj.Date)))
                 {
-                    while (!GetLastFriday(d.Date).Equals(d.Date))
-                        d.Date = d.Date.AddDays(1);
+                    cotizationsDayList.Add(new Data (obj.Date, obj.Closed, obj.Opened));
+                    Console.WriteLine(obj.Date + "\t" + obj.Closed + "\t" + obj.Opened);
+                }
 
-                    lastCotizationDay = d.Date;
-                }
-                if (!(cotizationsDayList.Exists(x => x.Date == lastCotizationDay)))
-                {
-                    cotizationsDayList.Add(new Data(d.Date, d.Closed, d.Opened));
-                    
-                }
             }
             return cotizationsDayList;
         }
 
         public static decimal GetTotal(List<Data> cotizationsDayList, decimal exactDay)
         {
-            cotizationsDayList.Reverse();
+            //cotizationsDayList.Reverse();
             decimal total = 0;
             foreach (Data ld in cotizationsDayList)
             {
                 total = Decimal.Round(total + ((50-(50*2/100)) / ld.Opened), 3);
-                Console.WriteLine(ld.Date +"\t"+ld.Closed + "\t"+ld.Opened);
+               // Console.WriteLine(ld.Date +"\t"+ld.Closed + "\t"+ld.Opened);
             }
             total = exactDay * total;
             CreateExcel(cotizationsDayList, exactDay);
