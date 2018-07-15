@@ -36,7 +36,9 @@ namespace RetoZara
             foreach (var d in dateList)
             {
                 DateTime dome = GetLastFriday(d.Date);
-                Data obj = dateList.Find(x => x.Date == dome );
+                try
+                {
+                    Data obj = dateList.Find(x => x.Date == dome );
                 if (obj == null)
                 {
                     int cont = 0;
@@ -46,12 +48,11 @@ namespace RetoZara
                     } while (dateList.Find(x => x.Date == dome) == null && cont < 30);
                 }
                 obj = dateList.Find(x => x.Date == dome);
-                try
-                {
+                
                     if (!cotizationsDayList.Exists(x => x.Date == obj.Date))
                        cotizationsDayList.Add(new Data(obj.Date, obj.Closed, obj.Opened));
                 }
-                catch{ }
+                catch(ArgumentNullException e){ throw e; }
             }
             //List<Data> cotization2006 = FileAccessDates.GetDataFromDate(cotizationsDayList,"01/01/06","01/01/07");
             //List<Data> cotization2007 = FileAccessDates.GetDataFromDate(cotizationsDayList, "01/01/07", "01/01/08");
@@ -105,7 +106,7 @@ namespace RetoZara
                         Missing.Value, false, false, XlSaveAsAccessMode.xlShared, false, false,
                         Missing.Value, Missing.Value, Missing.Value);
                 }
-                catch (FileNotFoundException e)
+                catch (ArgumentOutOfRangeException e)
                 {
                     Console.WriteLine(e.Message);
                     throw e;
