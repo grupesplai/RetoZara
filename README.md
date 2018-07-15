@@ -1,4 +1,6 @@
-# RetoZara
+﻿# RetoZara
+RESULTADO FINAL:
+36.585,568€
 #Una persona recibe su nómina el último Jueves de cada mes. Desde el primer día que Inditex cotiza en bolsa (el 23-may-2001), ha decidido invertir cada día siguiente de haber cobrado su nómima (o si ese día no hubo cotización, el siguiente día que la haya), la cantidad de 50€ en acciones del grupo.
 #La compra de las acciones la realiza al precio de apertura de ese día de compra. Esta persona utiliza un broker que le permite comprar acciones parciales de forma que pueda invertir siempre los 50€, pero este broker se queda en el momento de la compra con un 2% del importe invertido.
 #Calcular cual será el capital final obtenido, si realiza la venta total de sus acciones el día 28-dic-2017 al valor del cierre de la cotización.
@@ -12,5 +14,10 @@ Pasos seguidos:
 - Cada registro son iterados para hacer los cálculos teniendo en cuanta el redondeo a cada valor calculado de la iteración.
 - Por último la aplicación muestra la cantidad calculada con un formato de 3 decimales.
 
-RESULTADO FINAL:
-36.664,211€
+
+
+
+
+- EXCEL CON LOS DATOS QUE UTILIZA LA APLICACIÓN PARA REALIZAR LOS CALCULOS:
+Primeramente esto no es parte del reto, pero para la comprobación de los datos se crea un fichero excel (.xls) lo que hará falta instalar Microsoft.Office.Interop.Excel
+La primera vez en ejecutar la aplicación tardará unos segundos más ya que primero procesa el fichero y luego muestra el resultado, a partir de la segunda vez esta operación no se repite.

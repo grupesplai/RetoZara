@@ -71,7 +71,7 @@ namespace RetoZara
         }
         public static void CreateExcel(List<Data> dateList, decimal exactDay)
         {
-            string path = @"C:\Users\G1\source\repos\RetoZara\RetoZara\DatosFechas.csv";
+            string path = @"C:\Users\G1\source\repos\RetoZara\RetoZara\DatosFechas.xls";
             if (!File.Exists(path))
             {
                 _Application excel = new Application();
